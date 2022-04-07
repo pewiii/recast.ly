@@ -1,6 +1,9 @@
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
 import exampleVideoData from '../data/exampleVideoData.js';
+import Search from './Search.js';
+import searchYouTube from '../lib/searchYouTube.js';
+
 
 class App extends React.Component {
   constructor() {
@@ -10,11 +13,21 @@ class App extends React.Component {
       videoList: exampleVideoData
     };
     this.currentVideo = this.currentVideo.bind(this);
+    this.searchInput = this.searchInput.bind(this);
+
   }
 
-  currentVideo (video) {
+  currentVideo(video) {
     this.setState ({
       currentlyPlaying: video
+    });
+  }
+
+
+  searchInput(query) {
+    searchYouTube(query, (incomingList) => {
+      console.log(incomingList);
+      //this.setState({videoList: incomingList});
     });
   }
 
@@ -25,7 +38,7 @@ class App extends React.Component {
     return <div>
       <nav className="navbar">
         <div className="col-md-6 offset-md-3">
-          <div><h5><em>search</em> view goes here</h5></div>
+          <div><h5><em>search</em><Search searchHandler={this.searchInput}/></h5></div>
         </div>
       </nav>
       <div className="row">
