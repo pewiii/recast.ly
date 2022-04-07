@@ -1,14 +1,26 @@
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+import exampleVideoData from '../data/exampleVideoData.js';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      currentlyPlaying: props.data[1],
-      videoList: props.data
+      currentlyPlaying: exampleVideoData[1],
+      videoList: exampleVideoData
     };
+    this.currentVideo = this.currentVideo.bind(this);
   }
+
+  currentVideo (video) {
+    this.setState ({
+      currentlyPlaying: video
+    });
+  }
+
+
+
+
   render () {
     return <div>
       <nav className="navbar">
@@ -21,7 +33,7 @@ class App extends React.Component {
           <div><h5><em>videoPlayer</em><VideoPlayer video={this.state.currentlyPlaying}/></h5></div>
         </div>
         <div className="col-md-5">
-          <div><h5><em>videoList</em><VideoList videos={this.state.videoList}/></h5></div>
+          <div><h5><em>videoList</em><VideoList videos={this.state.videoList} videoSelector={this.currentVideo}/></h5></div>
         </div>
       </div>
     </div>;
