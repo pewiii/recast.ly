@@ -6,16 +6,33 @@ import searchYouTube from '../lib/searchYouTube.js';
 
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.check = props.check ? props.check : searchYouTube;
     this.state = {
-      currentlyPlaying: exampleVideoData[1],
-      videoList: exampleVideoData
+      currentlyPlaying: {id: {videoId: ''}, snippet: {title: '', description: ''} },
+      videoList: [],
+      search: ''
     };
+
     this.currentVideo = this.currentVideo.bind(this);
     this.searchInput = this.searchInput.bind(this);
+    this.searchChange = this.searchChange.bind(this);
 
   }
+
+  componentDidMount() {
+    this.check('muffin', (data) => {
+      //console.log(data);
+      this.setState ({
+        currentlyPlaying: data[0],
+        videoList: data
+      });
+    });
+  }
+
+
+
 
   currentVideo(video) {
     this.setState ({
@@ -25,20 +42,22 @@ class App extends React.Component {
 
 
   searchInput(query) {
-    searchYouTube(query, (incomingList) => {
-      console.log(incomingList);
-      //this.setState({videoList: incomingList});
+    this.check(query, (incomingList) => {
+      this.setState({videoList: incomingList});
     });
   }
 
-
+  searchChange(val) {
+    this.setState({ search: val });
+    this.searchInput(this.state.search);
+  }
 
 
   render () {
     return <div>
       <nav className="navbar">
         <div className="col-md-6 offset-md-3">
-          <div><h5><em>search</em><Search searchHandler={this.searchInput}/></h5></div>
+          <div><h5><em>search</em><Search searchHandler={this.searchInput} change={this.searchChange}/></h5></div>
         </div>
       </nav>
       <div className="row">
