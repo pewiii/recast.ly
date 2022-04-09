@@ -10,6 +10,7 @@ var VideoPlayer = (props) => (
   </div>
 );
 
+//<iframe width=”560″ height=”315″ src=” https://www.youtube.com/embed/[Video ID]I?&autoplay=1″ frameborder=”0″ allowfullscreen></iframe>
 
 // PropTypes tell other developers what `props` a component expects
 // Warnings will be shown in the console when the defined rules are violated

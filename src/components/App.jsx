@@ -12,12 +12,13 @@ class App extends React.Component {
     this.state = {
       currentlyPlaying: {id: {videoId: ''}, snippet: {title: '', description: ''} },
       videoList: [],
-      search: ''
+      search: '',
+      autoPlay: true
     };
 
     this.currentVideo = this.currentVideo.bind(this);
     this.searchInput = this.searchInput.bind(this);
-    this.searchChange = this.searchChange.bind(this);
+    this.searchChange = _.debounce(this.searchChange.bind(this), 1000);
 
   }
 
@@ -31,15 +32,11 @@ class App extends React.Component {
     });
   }
 
-
-
-
   currentVideo(video) {
     this.setState ({
       currentlyPlaying: video
     });
   }
-
 
   searchInput(query) {
     this.check(query, (incomingList) => {
